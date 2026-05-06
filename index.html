@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Synthesis — Domains 5 & 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inconsolata:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C8A96E;
+    --gold-light: #E8D5A8;
+    --gold-dark: #8B6E3A;
+    --ink: #1A1612;
+    --ink-mid: #3D3228;
+    --ink-soft: #6B5C48;
+    --parchment: #F5EFE2;
+    --parchment-dark: #EAE0CC;
+    --parchment-deeper: #DDD0B8;
+    --crimson: #8B2635;
+    --crimson-light: #C44A5A;
+    --indigo-deep: #2A1F4E;
+    --indigo-mid: #4A3880;
+    --indigo-light: #7A68B5;
+    --teal-sacred: #1A5C5A;
+    --teal-light: #3A9E9B;
+    --void: #0D0A08;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  .manuscript-bg {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 31px,
+      rgba(200,169,110,0.04) 31px,
+      rgba(200,169,110,0.04) 32px
+    );
+  }
+
+  header {
+    background: var(--void);
+    border-bottom: 1px solid var(--gold-dark);
+    padding: 3rem 4rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 50% -20%, rgba(200,169,110,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .header-meta {
+    font-family: 'Inconsolata', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  header h1 {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: var(--gold-light);
+    margin-bottom: 0.6rem;
+  }
+
+  header .subtitle {
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--ink-soft);
+    color: rgba(245,239,226,0.5);
+    font-weight: 300;
+  }
+
+  .phase-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(200,169,110,0.1);
+    border: 0.5px solid var(--gold-dark);
+    padding: 0.35rem 1rem;
+    font-family: 'Inconsolata', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 1.5rem;
+  }
+
+  .phase-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 0 2rem 6rem; }
+
+  .domain-section {
+    margin-top: 5rem;
+    position: relative;
+  }
+
+  .domain-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 2rem;
+    align-items: start;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(200,169,110,0.2);
+  }
+
+  .domain-number {
+    font-family: 'Inconsolata', monospace;
+    font-size: 5rem;
+    font-weight: 300;
+    line-height: 1;
+    color: rgba(200,169,110,0.15);
+    letter-spacing: -0.05em;
+    margin-top: -0.1em;
+    user-select: none;
+  }
+
+  .domain-title-block {}
+
+  .domain-label {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .domain-title {
+    font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+    font-weight: 400;
+    color: var(--parchment);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+
+  .domain-tagline {
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(245,239,226,0.45);
+    font-weight: 300;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: rgba(200,169,110,0.15);
+    border: 1px solid rgba(200,169,110,0.15);
+    margin-bottom: 2.5rem;
+  }
+
+  .meta-cell {
+    background: rgba(13,10,8,0.8);
+    padding: 1rem 1.25rem;
+  }
+
+  .meta-label {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+
+  .meta-value {
+    font-size: 0.95rem;
+    color: var(--parchment);
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  .meta-value a {
+    color: var(--teal-light);
+    text-decoration: none;
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.82rem;
+  }
+
+  .meta-value a:hover { color: var(--gold-light); }
+
+  .why-matters {
+    background: rgba(42,31,78,0.35);
+    border-left: 2px solid var(--indigo-light);
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 2.5rem;
+    font-size: 1.05rem;
+    color: rgba(245,239,226,0.8);
+    font-style: italic;
+    line-height: 1.8;
+  }
+
+  .why-matters strong {
+    color: var(--indigo-light);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .domain5 .why-matters { border-left-color: var(--indigo-light); background: rgba(42,31,78,0.35); }
+  .domain6 .why-matters { border-left-color: var(--teal-light); background: rgba(26,92,90,0.2); }
+
+  .section-heading {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  .subdomains-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    background: rgba(200,169,110,0.1);
+    margin-bottom: 2.5rem;
+  }
+
+  .subdomain-card {
+    background: var(--void);
+    padding: 1.4rem 1.5rem;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .subdomain-card:hover { background: rgba(30,24,18,1); }
+
+  .subdomain-num {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    color: var(--gold-dark);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+
+  .subdomain-name {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--parchment);
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
+  }
+
+  .subdomain-desc {
+    font-size: 0.88rem;
+    color: rgba(245,239,226,0.45);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .domain5 .subdomain-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 100%;
+    background: linear-gradient(to bottom, var(--indigo-mid), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .domain5 .subdomain-card:hover::before { opacity: 1; }
+
+  .domain6 .subdomain-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 100%;
+    background: linear-gradient(to bottom, var(--teal-sacred), transparent);
+    opacity: 0;
+    transition: opacity: 0.2s;
+  }
+  .domain6 .subdomain-card:hover::before { opacity: 1; }
+
+  .deliverables-list {
+    list-style: none;
+    margin-bottom: 2.5rem;
+  }
+
+  .deliverables-list li {
+    display: flex;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 0.5px solid rgba(200,169,110,0.08);
+    font-size: 0.97rem;
+    color: rgba(245,239,226,0.75);
+    align-items: baseline;
+  }
+
+  .deliverables-list li::before {
+    content: '◇';
+    color: var(--gold-dark);
+    font-size: 0.7rem;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .refs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .ref-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(200,169,110,0.06);
+    border: 0.5px solid rgba(200,169,110,0.2);
+    padding: 0.3rem 0.75rem;
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.78rem;
+    color: var(--gold);
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .ref-chip:hover {
+    background: rgba(200,169,110,0.14);
+    border-color: var(--gold);
+  }
+
+  .progress-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2.5rem;
+    font-size: 0.92rem;
+  }
+
+  .progress-table th {
+    font-family: 'Inconsolata', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid rgba(200,169,110,0.2);
+    font-weight: 400;
+  }
+
+  .progress-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 0.5px solid rgba(200,169,110,0.06);
+    color: rgba(245,239,226,0.7);
+    vertical-align: top;
+  }
+
+  .progress-table td:first-child {
+    color: var(--parchment);
+    font-weight: 400;
+  }
+
+  .status-badge {
+    display: inline-block;
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.6rem;
+    text-transform: uppercase;
+  }
+
+  .status-not-started {
+    background: rgba(139,38,53,0.15);
+    border: 0.5px solid rgba(139,38,53,0.4);
+    color: var(--crimson-light);
+  }
+
+  .status-in-progress {
+    background: rgba(26,92,90,0.2);
+    border: 0.5px solid rgba(58,158,155,0.4);
+    color: var(--teal-light);
+  }
+
+  .synthesis-bridge {
+    margin-top: 5rem;
+    padding: 3rem;
+    background: linear-gradient(135deg, rgba(42,31,78,0.5) 0%, rgba(13,10,8,0.9) 60%, rgba(26,92,90,0.3) 100%);
+    border: 1px solid rgba(200,169,110,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .synthesis-bridge::before {
+    content: '⟡';
+    position: absolute;
+    top: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    color: var(--gold);
+    background: var(--ink);
+    padding: 0 0.75rem;
+    line-height: 1;
+  }
+
+  .synthesis-bridge h3 {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--gold-light);
+    margin-bottom: 1.2rem;
+    text-align: center;
+  }
+
+  .bridge-connections {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+
+  .bridge-node {
+    padding: 1.2rem;
+    border: 0.5px solid rgba(200,169,110,0.2);
+    text-align: center;
+  }
+
+  .bridge-node-label {
+    font-family: 'Inconsolata', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 0.4rem;
+  }
+
+  .bridge-node-name {
+    font-size: 1rem;
+    color: var(--parchment);
+    font-weight: 500;
+  }
+
+  .bridge-arrow {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--gold-dark);
+    opacity: 0.5;
+  }
+
+  .bridge-desc {
+    margin-top: 1.2rem;
+    text-align: center;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(245,239,226,0.5);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(200,169,110,0.12);
+    margin: 4rem 0;
+    position: relative;
+  }
+
+  .divider::after {
+    content: '✦';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--ink);
+    padding: 0 1rem;
+    font-size: 0.7rem;
+    color: var(--gold-dark);
+  }
+
+  .prerequisite-note {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    background: rgba(139,38,53,0.08);
+    border: 0.5px solid rgba(139,38,53,0.25);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.9rem;
+    color: rgba(245,239,226,0.65);
+  }
+
+  .prerequisite-note strong {
+    color: var(--crimson-light);
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  footer {
+    background: var(--void);
+    border-top: 1px solid rgba(200,169,110,0.1);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 1rem;
+  }
+
+  footer .footer-brand {
+    font-family: 'Inconsolata', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+  }
+
+  footer .footer-domain-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  footer .footer-domain-links a {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: rgba(200,169,110,0.4);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.15s;
+  }
+
+  footer .footer-domain-links a:hover,
+  footer .footer-domain-links a.active { color: var(--gold); }
+
+  @media (max-width: 700px) {
+    header { padding: 2rem 1.5rem; }
+    main { padding: 0 1rem 4rem; }
+    .domain-header { grid-template-columns: 1fr; }
+    .domain-number { font-size: 3rem; margin-bottom: 0.5rem; }
+    .bridge-connections { grid-template-columns: 1fr; }
+    .bridge-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body class="manuscript-bg">
+
+<header>
+  <div class="header-meta">Grand Synthesis · Route Map & Progress Tracker</div>
+  <h1>Domains 5 & 6</h1>
+  <p class="subtitle">Consciousness Studies · Karmic Code & DNA Metaphysics</p>
+  <div class="phase-banner">
+    <span class="phase-dot"></span>
+    Phase 2 — Cross-domain Synthesis · Weeks 10–22
+  </div>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════════════════ DOMAIN 5 ═══════════════════════════════════ -->
+  <section class="domain-section domain5">
+
+    <div class="domain-header">
+      <div class="domain-number">05</div>
+      <div class="domain-title-block">
+        <div class="domain-label">Domain 5 of 9 · Phase 2</div>
+        <h2 class="domain-title">Consciousness Studies</h2>
+        <p class="domain-tagline">The philosophical core of the synthesis</p>
+      </div>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-cell">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-value">Weeks 10–18</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Primary URL</div>
+        <div class="meta-value">
+          <a href="https://spiritualphilosophical.culturalmusings.com">spiritualphilosophical.culturalmusings.com</a><br>
+          <a href="https://masterconsciousprotocol.culturalmusings.com">masterconsciousprotocol.culturalmusings.com</a>
+        </div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Current Status</div>
+        <div class="meta-value">Philosophical site exists. Master Consciousness Protocol in progress.</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Phase Priority</div>
+        <div class="meta-value">Step 5 — follows Domains 1–4</div>
+      </div>
+    </div>
+
+    <div class="why-matters">
+      The synthesis requires a consciousness framework capable of holding all other domains simultaneously. <strong>Nagarjuna's Shunyavada</strong> provides the Madhyamika middle path. <strong>Shankaracharya's Advaita</strong> delivers the non-dual resolution. The three Acharyas together map the full spectrum from absolute unity to qualified difference. The <strong>Turiya</strong> (fourth state) and <strong>Spanda</strong> (vibration) doctrines from Kashmir Shaivism bind consciousness directly to the sound and vibration domain. This is where the goal of removing conflicts of interest in humanoid thought processes is directly addressed.
+    </div>
+
+    <p class="section-heading">Six Subdomains</p>
+    <div class="subdomains-grid">
+      <div class="subdomain-card">
+        <div class="subdomain-num">30 · D5.1</div>
+        <div class="subdomain-name">Shunyavada</div>
+        <div class="subdomain-desc">Nagarjuna's doctrine of emptiness and the Madhyamika middle path</div>
+      </div>
+      <div class="subdomain-card">
+        <div class="subdomain-num">31 · D5.2</div>
+        <div class="subdomain-name">Advaita Vedanta</div>
+        <div class="subdomain-desc">Shankaracharya's non-dual consciousness framework</div>
+      </div>
+      <div class="subdomain-card">
+        <div class="subdomain-num">32 · D5.3</div>
+        <div class="subdomain-name">Dvaita</div>
+        <div class="subdomain-desc">Madhvacharya's dualistic framework and bhakti resolution</div>
+      </div>
+      <div class="subdomain-card">
+        <div class="subdomain-num">33 · D5.4</div>
+        <div class="subdomain-name">Vishishtadvaita</div>
+        <div class="subdomain-desc">Ramanujacharya's qualified non-dualism</div>
+      </div>
+      <div class="subdomain-card">
+        <div class="subdomain-num">34 · D5.5</div>
+        <div class="subdomain-name">Turiya</div>
+        <div class="subdomain-desc">The fourth state beyond waking, dream, and deep sleep</div>
+      </div>
+      <div class="subdomain-card">
+        <div class="subdomain-num">35 · D5.6</div>
+        <div class="subdomain-name">Spanda Doctrine</div>
+        <div class="subdomain-desc">Kashmir Shaivism's vibration theory of consciousness</div>
+      </div>
+    </div>
+
+    <p class="section-heading">Deliverables</p>
+    <ul class="deliverables-list">
+      <li>Three-Acharya comparison matrix (Advaita / Dvaita / Vishishtadvaita)</li>
+      <li>Nagarjuna Shunyavada timeline and textual lineage</li>
+      <li>Turiya and states-of-consciousness interactive map</li>
+      <li>Spanda-to-Nada Brahma cross-domain bridge document</li>
+      <li>Master Consciousness Protocol — step-by-step sadhana framework</li>
+    </ul>
+
+    <p class="section-heading">Key Reference URLs</p>
+    <div class="refs-grid">
+      <a class="ref-chip" href="https://masterconsciousprotocol.culturalmusings.com">masterconsciousprotocol.culturalmusings.com</a>
+      <a class="ref-chip" href="https://spiritualphilosophical.culturalmusings.com">spiritualphilosophical.culturalmusings.com</a>
+      <a class="ref-chip" href="https://www.opensadhaka.com">opensadhaka.com</a>
+      <a class="ref-chip" href="https://manblunder.com">manblunder.com</a>
+      <a class="ref-chip" href="https://openlibrary.org/subjects/advaita">openlibrary.org / advaita</a>
+    </div>
+
+    <p class="section-heading">Progress Tracker</p>
+    <table class="progress-table">
+      <thead>
+        <tr>
+          <th>Subdomain</th>
+          <th>Status</th>
+          <th>Notes / Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Shunyavada</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Advaita Vedanta</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Dvaita</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Vishishtadvaita</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Turiya</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Spanda Doctrine</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════════ DOMAIN 6 ═══════════════════════════════════ -->
+  <section class="domain-section domain6">
+
+    <div class="domain-header">
+      <div class="domain-number">06</div>
+      <div class="domain-title-block">
+        <div class="domain-label">Domain 6 of 9 · Phase 2</div>
+        <h2 class="domain-title">Karmic Code &amp; DNA Metaphysics</h2>
+        <p class="domain-tagline">The unsolved puzzle domain</p>
+      </div>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-cell">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-value">Weeks 14–22</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Primary URL</div>
+        <div class="meta-value">
+          <a href="https://completecelestialsynthesis.culturalmusings.com">completecelestialsynthesis.culturalmusings.com</a>
+        </div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Current Status</div>
+        <div class="meta-value">Conceptual framework only. Research and cross-domain work required.</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Phase Priority</div>
+        <div class="meta-value">Step 6 — requires Domains 3, 4, 5 as prerequisites</div>
+      </div>
+    </div>
+
+    <div class="prerequisite-note">
+      <strong>Prerequisites</strong>
+      <span>This domain requires Domains 3 (Vedic Foundation), 4 (Sound & Vibration), and 5 (Consciousness Studies) to be substantially complete before deep synthesis work can begin. The epigenetic-karma hypothesis draws on Atharvaveda (D3), bio-acoustic healing (D4), and the Pancha Kosha consciousness model (D5).</span>
+    </div>
+
+    <div class="why-matters">
+      This is the most ambitious domain and the deepest <em>why</em> of the entire project. The hypothesis that karmic deeds are encoded in DNA/RNA and chromosomal structures — that past-life <strong>samskaras</strong> manifest as epigenetic markers, and that <strong>Jyotisha</strong> maps the timing of karmic resolution — requires the most careful cross-domain synthesis. It must be presented with both perceived (philosophical/spiritual) and realistic (scientific/biological) coverage, clearly distinguishing between what is known, what is hypothesised, and what remains an open question.
+    </div>
+
+    <p class="section-heading">Six Subdomains</p>
+    <div class="subdomains-grid">
+      <div class="subdomain-card">
+        <div class="subdomain-num">36 · D6.1</div>
+        <div class="subdomain-name">Karma–DNA Encoding Hypothesis</div>
+        <div class="subdomain-desc">Samskaras as epigenetic markers — theoretical framework</div>
+      </div>
+      <div class="subdomain-card">
+        <div class="subdomain-num">37 · D6.2</div>
+        <div class="subdomain-name">Past-Life Samskaras &amp; Epigenetics</div>
+        <div class="subdomain-desc">Modern epigenetics research correlation with samskara theory</div>
+      </div>
+      <div class="subdomain-card">
+        <div class="subdomain-num">38 · D6.3</div>
+        <div class="subdomain-name">Chromosomal Karmic Markers</div>
+        <div class="subdomain-desc">Theoretical framework for karmic information in chromosomal structures</div>
+      </div>
+      <div class="subdomain-card">
+        <div class="subdomain-num">39 · D6.4</div>
+        <div class="subdomain-name">Jyotisha</div>
+        <div class="subdomain-desc">Vedic astrology as a karmic timing system</div>
+      </div>
+      <div class="subdomain-card">
+        <div class="subdomain-num">40 · D6.5</div>
+        <div class="subdomain-name">Pancha Kosha</div>
+        <div class="subdomain-desc">The five body sheaths — Annamaya to Anandamaya</div>
+      </div>
+      <div class="subdomain-card">
+        <div class="subdomain-num">41 · D6.6</div>
+        <div class="subdomain-name">Resolution Pathways</div>
+        <div class="subdomain-desc">Moksha map and karmic debt resolution protocols</div>
+      </div>
+    </div>
+
+    <p class="section-heading">Deliverables</p>
+    <ul class="deliverables-list">
+      <li>Karma–DNA hypothesis paper (perceived + realistic coverage, clearly distinguished)</li>
+      <li>Pancha Kosha layered body diagram with sheath-by-sheath breakdown</li>
+      <li>Jyotisha–Karma timing cross-reference (planetary cycles vs karmic windows)</li>
+      <li>Epigenetics gap analysis — what science currently answers vs what remains open</li>
+      <li>Resolution protocol framework integrating sadhana, medical, and philosophical pathways</li>
+    </ul>
+
+    <p class="section-heading">Key Reference URLs</p>
+    <div class="refs-grid">
+      <a class="ref-chip" href="https://completecelestialsynthesis.culturalmusings.com">completecelestialsynthesis.culturalmusings.com</a>
+      <a class="ref-chip" href="https://bioresonancemusings.culturalmusings.com">bioresonancemusings.culturalmusings.com</a>
+      <a class="ref-chip" href="https://www.wisdomlib.org">wisdomlib.org (karma sections)</a>
+      <a class="ref-chip" href="https://vedapurana.org">vedapurana.org</a>
+    </div>
+
+    <p class="section-heading">Progress Tracker</p>
+    <table class="progress-table">
+      <thead>
+        <tr>
+          <th>Subdomain</th>
+          <th>Status</th>
+          <th>Notes / Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Karma–DNA encoding hypothesis</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Past-life samskaras and modern epigenetics research correlation</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Chromosomal karmic markers</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Jyotisha</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Pancha Kosha</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Resolution pathways</td>
+          <td><span class="status-badge status-not-started">Not started</span></td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <!-- ═══════════════════════════════ SYNTHESIS BRIDGE ═══════════════════════════════ -->
+  <div class="synthesis-bridge">
+    <h3>Critical Synthesis Point — Domains 5 × 6</h3>
+    <p style="text-align:center; font-size:0.92rem; color:rgba(245,239,226,0.5); font-style:italic; margin-bottom:0.5rem;">
+      The Consciousness–Karma Interface
+    </p>
+    <div class="bridge-connections">
+      <div class="bridge-node">
+        <div class="bridge-node-label">Domain 5</div>
+        <div class="bridge-node-name">Spanda Doctrine</div>
+        <p style="font-size:0.82rem;color:rgba(245,239,226,0.45);margin-top:0.4rem;font-style:italic;">Kashmir Shaivism — vibration as the substrate of consciousness</p>
+      </div>
+      <div class="bridge-arrow">⟷</div>
+      <div class="bridge-node">
+        <div class="bridge-node-label">Domain 6</div>
+        <div class="bridge-node-name">Pancha Kosha</div>
+        <p style="font-size:0.82rem;color:rgba(245,239,226,0.45);margin-top:0.4rem;font-style:italic;">Five sheaths — from Annamaya (body) to Anandamaya (bliss)</p>
+      </div>
+    </div>
+    <p class="bridge-desc">
+      The Spanda doctrine's vibration-as-consciousness maps directly onto the Pancha Kosha model's layered body. Each kosha can be understood as a frequency stratum — producing a unified framework in which karmic encoding, vibrational state, and consciousness level are aspects of a single architecture.
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">culturalmusings.com · github.com/ramachandra1975</div>
+  <nav class="footer-domain-links">
+    <a href="#">D1 · Sacred Geometry</a>
+    <a href="#">D2 · Natya Shastra</a>
+    <a href="#">D3 · Vedic Foundation</a>
+    <a href="#">D4 · Sound &amp; Vibration</a>
+    <a href="#" class="active">D5 · Consciousness</a>
+    <a href="#" class="active">D6 · Karmic Code</a>
+    <a href="#">D7 · Bio-Resonance</a>
+    <a href="#">D8 · Heritage</a>
+    <a href="#">D9 · Digital Archive</a>
+  </nav>
+</footer>
+
+</body>
+</html>
